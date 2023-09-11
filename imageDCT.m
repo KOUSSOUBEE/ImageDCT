@@ -1,48 +1,34 @@
-clc;  clear all;  close all;
 
-%B=imread('imag/maphoto.png');     // pour une image en couleur
-%A=rgb2gray(B);                    // convertir en niveau de gris
-A=imread('imag/im1.png');
-[LL,LH,HL,HH] = dwt2(A,'haar');
-%figure, imshow(host), title('host');
+clc;
+clear all;
+close all;
+n=input('Entrer ');
+alpha2 = ones(1,n)*sqrt(2/n);
+alpha2(1) = sqrt(1/n);
+alpha1 = ones(1,n)*sqrt(2/n);
+alpha(1) = sqrt(1/n);
+for u = 0:n-1
+    for v = 0:n-1
+        for x = 0:n-1
+            for y = 0:n-1
+                 a{u+1,v+1}(x+1,y+1) = alpha1(u+1)*alpha2(v+1)*...
+                 cos((2*x+1)*u*pi/(2*n))*cos((2*y+1)*v*pi/(2*n));
+            end 
+        end
+    end
+end
 
+mag = a;
+figure
+k=1;
 
-figure;
-subplot(2,2,1)
-imagesc(LL)
-colormap gray
-title('LL')
-subplot(2,2,2)
-imagesc(LH)
-colormap gray
-title('LH')
-subplot(2,2,3)
-imagesc(HL)
-colormap gray
-title('HL')
-subplot(2,2,4)
-imagesc(HH)
-colormap gray
-title('HH')
-
-
-
-[nLL,nLH,nHL,nHH] = dwt2(LL,'haar');
-%figure, imshow(host), title('host');
-
-figure;
-subplot(2,2,1)
-imagesc(nLL)
-colormap gray
-title('LL : Approximation niveau 2')
-subplot(2,2,2)
-imagesc(nLH)
-colormap gray
-title('LH : Horizontal niveau 2')
-subplot(2,2,3)
-imagesc(nHL)
-colormap gray
-title('HL : Vertical niveau 2')
+for i=1:n
+    for j=1:n
+        subplot(n,n,k);
+        imshow(mag{i,j});
+        k=k+1;
+    end
+end
 subplot(2,2,4)
 imagesc(nHH)
 colormap gray
